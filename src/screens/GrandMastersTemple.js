@@ -1,16 +1,19 @@
 import React from 'react'
 import { View, StyleSheet, Text, Button, Image } from 'react-native'
+import NavigationCards from '../components/ui/NavigationCards'
 
 const GrandMastersTemple = ({ navigation }) => {
+    const screenNavInfo = [
+        {
+            name: 'Working Memory',
+            screen: 'WorkingMemory',
+            image: require('../../assets/memory-master.webp'),
+        },
+    ]
     return (
         <View style={styles.container}>
             <View style={styles.content}>
-                <Image source={require('../../assets/memory-master.webp')} style={styles.image} />
-                <Text style={styles.title}>Memory Master</Text>
-                <Button
-                    title="Play"
-                    onPress={() => navigation.navigate('WorkingMemory')}
-                />
+                <NavigationCards screenNavInfo={screenNavInfo} />
             </View>
         </View>
     )
