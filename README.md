@@ -2,6 +2,8 @@
 
 Este juego lleva el nombre de mi novia, a quien va dedicado este juego.
 
+<img src="./assets/markdown/dana.png" alt="Icon" height="200"/>
+
 la temática del juego es aventura y combate en un mundo de fantasía instpidado en la cultura Asiatica.
 
 las mecánicas del juego son sencillas, son puzles que representan combates mágicos intelectuales.
@@ -25,23 +27,29 @@ tengo que buscar una forma de implementar puzzles que puedan ser flexibles y var
 
 ```json
 {
-    flow: {
-        fase: 1,
-        puzzle: "",
+    "flow": {
+        "fase": 1,
+        "puzzle": "",
 
-        onResolve: {
+        "onResolve": {
             {
-                fase: 2,
-                puzzle: "",
-                puzzleProps: {},
-                onResolve: "finish",
-                onFail: "fail",
+                "fase": 2,
+                "puzzle": "",
+                "puzzleProps": {},
+                "onResolve": "finish",
+                "onFail": "fail",
             }
         },
-        onFail: {
-            {fase: 2, puzzle: "", puzzleProps: {}, onResolve: "finish", onFail: "fail"},
+        "onFail": {
+            {
+                "fase": 2,
+                "puzzle": "",
+                "puzzleProps": {},
+                "onResolve": "finish",
+                "onFail": "fail",
+            },
         },
-    }
+    }   
 }
 ```
 
