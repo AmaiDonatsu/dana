@@ -5,6 +5,7 @@ import NavigationCards from '../components/ui/NavigationCards'
 const GrandMastersTemple = ({ navigation }) => {
     const screenNavInfo = [
         {
+            id: 1,
             name: 'Working Memory',
             screen: 'WorkingMemory',
             image: require('../../assets/memory-master.webp'),
@@ -12,6 +13,7 @@ const GrandMastersTemple = ({ navigation }) => {
     ]
     return (
         <View style={styles.container}>
+            <Text style={styles.title}>Grand Master's Temple</Text>
             <View style={styles.content}>
                 <NavigationCards screenNavInfo={screenNavInfo} />
             </View>
@@ -23,20 +25,18 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#050507',
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: 'center', // Center title basically
+        paddingTop: 50,
     },
     content: {
-        alignItems: 'center',
-    },
-    image: {
-        width: 200,
-        height: 200,
+        flex: 1, // Take remaining space for the list
+        width: '100%',
     },
     title: {
         color: '#ffffff',
         fontSize: 24,
         marginBottom: 20,
+        fontWeight: 'bold',
     }
 })
 
