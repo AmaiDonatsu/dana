@@ -12,7 +12,7 @@ const WorkingMemory = () => {
     const [statusText, setStatusText] = useState("SISTEMA INICIALIZADO");
     const [isPlaying, setIsPlaying] = useState(false);
     const [isShowingSequence, setIsShowingSequence] = useState(false);
-    const [isInverseMode, setIsInverseMode] = useState(false);
+    // isInverseMode removed - now default behavior
     const [nodeMapping, setNodeMapping] = useState([...INITIAL_MAPPING]);
     const [sequence, setSequence] = useState([]);
     const [playerSequence, setPlayerSequence] = useState([]);
@@ -113,7 +113,7 @@ const WorkingMemory = () => {
             setShuffleActive(false);
         }
 
-        setStatusText(isInverseMode ? "ORDEN INVERSO" : "TU TURNO");
+        setStatusText("REPRODUCE EN ORDEN INVERSO");
         setIsShowingSequence(false);
     };
 
@@ -136,7 +136,7 @@ const WorkingMemory = () => {
         highlightNode(slotIdx);
 
         const currentStep = newPlayerSequence.length - 1;
-        const targetSequence = isInverseMode ? [...sequence].reverse() : sequence;
+        const targetSequence = [...sequence].reverse();
 
         if (newPlayerSequence[currentStep] !== targetSequence[currentStep]) {
             gameOver();
@@ -245,21 +245,6 @@ const WorkingMemory = () => {
                         }}>
                             <Text style={styles.startBtnText}>INICIAR ENTRENAMIENTO</Text>
                         </TouchableOpacity>
-
-                        <View style={styles.modeContainer}>
-                            <TouchableOpacity
-                                style={[styles.modeBtn, !isInverseMode && styles.modeActive]}
-                                onPress={() => setIsInverseMode(false)}
-                            >
-                                <Text style={[styles.modeText, !isInverseMode && styles.modeTextActive]}>NORMAL</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[styles.modeBtn, isInverseMode && styles.modeActive]}
-                                onPress={() => setIsInverseMode(true)}
-                            >
-                                <Text style={[styles.modeText, isInverseMode && styles.modeTextActive]}>INVERSO (HARD)</Text>
-                            </TouchableOpacity>
-                        </View>
                     </View>
                 )}
 
@@ -279,7 +264,7 @@ const WorkingMemory = () => {
                 )}
 
             </View>
-        </View>
+        </View >
     );
 };
 
