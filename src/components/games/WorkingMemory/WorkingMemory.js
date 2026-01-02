@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Animated, Dimensions } from 'react-native';
+import { Audio } from 'expo-av';
 
 const ICONS = ['⚛️', '🧬', '🔭', '🪐', '💻', '⚡', '🤖', '🔋', '🚀'];
 const INITIAL_MAPPING = [0, 1, 2, 3, 4, 5, 6, 7, 8];
@@ -18,6 +19,37 @@ const WorkingMemory = () => {
     const [activeNode, setActiveNode] = useState(null); // Index of the currently highlighted slot
     const [shuffleActive, setShuffleActive] = useState(false);
     const [nodeStatus, setNodeStatus] = useState({}); // { slotIndex: 'success' | 'error' | null }
+    const soundRef = useRef(null);
+
+    // Audio Logic
+    useEffect(() => {
+        const playSound = async () => {
+            try {
+                // Unload any existing sound before loading a new one
+                if (soundRef.current) {
+                    await soundRef.current.unloadAsync();
+                }
+
+                const { sound } = await Audio.Sound.createAsync(
+                    require('../../../../assets/audio/muscafondo.mp3'),
+                    { isLooping: true, volume: 0.5 }
+                );
+                soundRef.current = sound;
+                await sound.playAsync();
+            } catch (error) {
+                console.error('Error playing sound:', error);
+            }
+        };
+
+        playSound();
+
+        return () => {
+            if (soundRef.current) {
+                soundRef.current.stopAsync();
+                soundRef.current.unloadAsync();
+            }
+        };
+    }, []);
 
     // Constants
     const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
