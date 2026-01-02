@@ -17,7 +17,7 @@
     },
     "android": {
       "package": "com.nissunay.dana",
-      "googleServicesFile": "./firebase/google-services.json",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -26,6 +26,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "350c31be-e756-416f-828d-23bd6f055fad"
+      }
     }
   }
 }
