@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, Image } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 export default function Login({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [googleLoading, setGoogleLoading] = useState(false);
+
+    useEffect(() => {
+        GoogleSignin.configure({
+            webClientId: 'TU_WEB_CLIENT_ID.apps.googleusercontent.com', // Reemplazar con el Client ID de la consola de Firebase
+        });
+    }, []);
 
     const handleLogin = async () => {
         if (!email || !password) {
@@ -16,7 +24,6 @@ export default function Login({ navigation }) {
         setLoading(true);
         try {
             await auth().signInWithEmailAndPassword(email, password);
-            // La navegación se manejará automáticamente en App.js por el cambio de estado
         } catch (error) {
             console.error(error);
             let errorMessage = 'Ocurrió un error al iniciar sesión';
@@ -26,6 +33,24 @@ export default function Login({ navigation }) {
             Alert.alert('Error', errorMessage);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const onGoogleButtonPress = async () => {
+        setGoogleLoading(true);
+        try {
+            await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+            const { idToken } = await GoogleSignin.signIn();
+            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+            await auth().signInWithCredential(googleCredential);
+        } catch (error) {
+            console.error(error);
+            // Si el usuario cancela no mostramos alert
+            if (error.code !== 'ASYNC_OP_IN_PROGRESS') {
+                Alert.alert('Error', 'No se pudo iniciar sesión con Google');
+            }
+        } finally {
+            setGoogleLoading(false);
         }
     };
 
@@ -57,7 +82,7 @@ export default function Login({ navigation }) {
                 <TouchableOpacity
                     style={styles.button}
                     onPress={handleLogin}
-                    disabled={loading}
+                    disabled={loading || googleLoading}
                 >
                     {loading ? (
                         <ActivityIndicator color="#fff" />
@@ -66,9 +91,34 @@ export default function Login({ navigation }) {
                     )}
                 </TouchableOpacity>
 
+                <View style={styles.divider}>
+                    <View style={styles.line} />
+                    <Text style={styles.dividerText}>o</Text>
+                    <View style={styles.line} />
+                </View>
+
+                <TouchableOpacity
+                    style={styles.googleButton}
+                    onPress={onGoogleButtonPress}
+                    disabled={loading || googleLoading}
+                >
+                    {googleLoading ? (
+                        <ActivityIndicator color="#333" />
+                    ) : (
+                        <>
+                            <Image
+                                source={require('../../../assets/icons/google-login.png')}
+                                style={styles.googleIcon}
+                            />
+                            <Text style={styles.googleButtonText}>Continuar con Google</Text>
+                        </>
+                    )}
+                </TouchableOpacity>
+
                 <TouchableOpacity
                     style={styles.linkButton}
                     onPress={() => navigation.navigate('SignIng')}
+                    disabled={loading || googleLoading}
                 >
                     <Text style={styles.linkText}>¿No tienes cuenta? Regístrate</Text>
                 </TouchableOpacity>
@@ -127,6 +177,42 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 18,
         fontWeight: 'bold',
+    },
+    googleButton: {
+        flexDirection: 'row',
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        padding: 14,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 10,
+        borderWidth: 1,
+        borderColor: '#ddd',
+    },
+    googleIcon: {
+        width: 24,
+        height: 24,
+        marginRight: 10,
+    },
+    googleButtonText: {
+        color: '#333',
+        fontSize: 16,
+        fontWeight: '600',
+    },
+    divider: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 20,
+    },
+    line: {
+        flex: 1,
+        height: 1,
+        backgroundColor: '#eee',
+    },
+    dividerText: {
+        marginHorizontal: 10,
+        color: '#999',
+        fontSize: 14,
     },
     linkButton: {
         marginTop: 20,
