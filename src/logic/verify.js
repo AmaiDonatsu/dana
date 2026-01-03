@@ -37,9 +37,11 @@ const verifyObjectFlow = (objectCharacter) => {
         if (node.onFail && typeof node.onFail === "object") {
             validateNode(node.onFail, `${path}.onFail`, depth + 1);
         }
+        return true;
     };
 
     validateNode(flow, "flow", 0);
+    return true;
 };
 
 export { verifyObjectFlow };
