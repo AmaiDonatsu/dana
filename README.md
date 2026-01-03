@@ -62,3 +62,50 @@ recibe como props:
 - tipo: "normal" | "invertido"
 - velocidad: int // multiplicador de velocidad
 - levelMax: int | "infinito"
+
+flujo para puzles:
+
+personaje_objeto: {
+
+}
+
+el duelo recibe como prop el personaje_objeto, quien dentro tiene su flow.
+
+si el flow es:
+
+```json
+{
+    "flow": {
+        "fase": 1,
+        "puzzle": "",
+        "puzzleProps": {},
+        "onResolve": "finish",
+        "onFail": "fail",
+    } 
+}
+```
+
+```json
+{
+    "flow": {
+        "phase": 1,
+        "puzzle": "",
+        "puzzleProps": {},
+        "onResolve": {
+            "phase": 2,
+            "puzzle": "",
+            "puzzleProps": {},
+            "onResolve": "finish",
+            "onFail": "fail",
+        },
+        "onFail": {
+            "phase": 2,
+            "puzzle": "",
+            "puzzleProps": {},
+            "onResolve": "finish",
+            "onFail": "fail",
+        },
+    } 
+}
+```
+al terminar el puzzle se devuelve onResolve o onFail
