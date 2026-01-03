@@ -5,7 +5,7 @@ import { Audio } from 'expo-av';
 const ICONS = ['⚛️', '🧬', '🔭', '🪐', '💻', '⚡', '🤖', '🔋', '🚀'];
 const INITIAL_MAPPING = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
-const WorkingMemory = () => {
+const WorkingMemory = ({ levelMax = "infinito", velocity = 3 }) => {
     // Game State
     const [level, setLevel] = useState(1);
     const [score, setScore] = useState(0);
@@ -93,12 +93,13 @@ const WorkingMemory = () => {
         setPlayerSequence([]);
         setNodeStatus({});
 
-        const currentSpeed = Math.max(250, 600 - (currentLevel * 25));
+        const baseSpeed = 600 - (currentLevel * 25);
+        const currentSpeed = Math.max(100, baseSpeed * (3 / velocity));
 
         for (let iconIdx of currentSequence) {
             await wait(currentSpeed);
             const slotIdx = nodeMapping.indexOf(iconIdx);
-            highlightNode(slotIdx);
+            highlightNode(slotIdx, currentSpeed * 0.8);
             await wait(currentSpeed);
         }
 
@@ -117,9 +118,9 @@ const WorkingMemory = () => {
         setIsShowingSequence(false);
     };
 
-    const highlightNode = (slotIdx) => {
+    const highlightNode = (slotIdx, duration = 400) => {
         setActiveNode(slotIdx);
-        setTimeout(() => setActiveNode(null), 400);
+        setTimeout(() => setActiveNode(null), duration);
     };
 
     const shuffleGrid = () => {
@@ -133,7 +134,10 @@ const WorkingMemory = () => {
         const iconIdxClicked = nodeMapping[slotIdx];
         const newPlayerSequence = [...playerSequence, iconIdxClicked];
         setPlayerSequence(newPlayerSequence);
-        highlightNode(slotIdx);
+
+        const baseSpeed = 600 - (level * 25);
+        const currentSpeed = Math.max(100, baseSpeed * (3 / velocity));
+        highlightNode(slotIdx, currentSpeed * 0.8);
 
         const currentStep = newPlayerSequence.length - 1;
         const targetSequence = [...sequence].reverse();
@@ -164,7 +168,7 @@ const WorkingMemory = () => {
         setTimeout(() => {
             setNodeStatus({});
             startNextRound(newLevel, newScore);
-        }, 800);
+        }, 800 / velocity);
     };
 
     const gameOver = () => {
@@ -178,7 +182,7 @@ const WorkingMemory = () => {
         setTimeout(() => {
             setNodeStatus({});
             resetGame();
-        }, 1200);
+        }, 1200 / velocity);
     };
 
     return (
@@ -258,7 +262,9 @@ const WorkingMemory = () => {
                         </View>
                         <View style={styles.footerRow}>
                             <Text style={styles.footerLabel}>LATENCIA:</Text>
-                            <Text style={styles.footerValueBlue}>{Math.max(250, 600 - (level * 25))}ms</Text>
+                            <Text style={styles.footerValueBlue}>
+                                {Math.round(Math.max(100, (600 - (level * 25)) * (3 / velocity)))}ms
+                            </Text>
                         </View>
                     </View>
                 )}

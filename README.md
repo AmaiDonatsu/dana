@@ -60,5 +60,5 @@ tengo que buscar una forma de implementar puzzles que puedan ser flexibles y var
 juego de memoria de trabajo:
 recibe como props:
 - tipo: "normal" | "invertido"
-- velocidad: "normal" | "rapido"
-- duracion: int
+- velocidad: int // multiplicador de velocidad
+- levelMax: int | "infinito"
