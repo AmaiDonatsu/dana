@@ -1,14 +1,19 @@
 import React from 'react'
 import { View, StyleSheet, Text, Button, Image } from 'react-native'
 import NavigationCards from '../components/ui/NavigationCards'
+import Duel from '../components/Duel'
+import character from '../development/characters'
 
 const GrandMastersTemple = ({ navigation }) => {
     const screenNavInfo = [
         {
             id: 1,
             name: 'Working Memory',
-            screen: 'WorkingMemory',
+            screen: 'Duel',
             image: require('../../assets/memory-master.webp'),
+            props: {
+                objectCharacter: character[0],
+            }
         },
     ]
     return (

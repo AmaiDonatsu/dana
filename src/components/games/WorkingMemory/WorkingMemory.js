@@ -5,7 +5,7 @@ import { Audio } from 'expo-av';
 const ICONS = ['⚛️', '🧬', '🔭', '🪐', '💻', '⚡', '🤖', '🔋', '🚀'];
 const INITIAL_MAPPING = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
-const WorkingMemory = ({ levelMax = "infinito", velocity = 3 }) => {
+const WorkingMemory = ({ onFinish, flow, levelMax = "infinito", velocity = 3, }) => {
     // Game State
     const [level, setLevel] = useState(1);
     const [score, setScore] = useState(0);
@@ -183,6 +183,14 @@ const WorkingMemory = ({ levelMax = "infinito", velocity = 3 }) => {
             setNodeStatus({});
             resetGame();
         }, 1200 / velocity);
+
+        if (typeof levelMax === "number") {
+            if (level >= levelMax) {
+                onFinish(flow.onResolve);
+            } else {
+                onFinish(flow.onFail);
+            }
+        };
     };
 
     return (
