@@ -14,6 +14,12 @@ importers:
       '@react-native-firebase/auth':
         specifier: ^23.7.0
         version: 23.7.0(@react-native-firebase/app@23.7.0(expo@54.0.30(@babel/core@7.28.5)(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0))(expo@54.0.30(@babel/core@7.28.5)(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0))
+      '@react-native-firebase/firestore':
+        specifier: ^23.7.0
+        version: 23.7.0(@react-native-firebase/app@23.7.0(expo@54.0.30(@babel/core@7.28.5)(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))
+      '@react-native-firebase/storage':
+        specifier: ^23.7.0
+        version: 23.7.0(@react-native-firebase/app@23.7.0(expo@54.0.30(@babel/core@7.28.5)(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0))
       '@react-native-google-signin/google-signin':
         specifier: ^16.1.1
         version: 16.1.1(expo@54.0.30(@babel/core@7.28.5)(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0)
@@ -994,6 +1000,16 @@ packages:
     peerDependenciesMeta:
       expo:
         optional: true
+
+  '@react-native-firebase/firestore@23.7.0':
+    resolution: {integrity: sha512-GCO6CM8rMrVFWU9EdV5sPDvhTgzX1hCE/U+Es0FzsFs01qy7aII4dZSfXLVF+jw1HMPaOdVanQTX4/D/auQqkg==}
+    peerDependencies:
+      '@react-native-firebase/app': 23.7.0
+
+  '@react-native-firebase/storage@23.7.0':
+    resolution: {integrity: sha512-nInKRRNSE7vvsmyqdMsPGR48ttOx17B3CKHqX2yvUK/NZFQC0QoMXGHQBpOkaOmD/qDqvtg5GUvZgpOr+D+UzA==}
+    peerDependencies:
+      '@react-native-firebase/app': 23.7.0
 
   '@react-native-google-signin/google-signin@16.1.1':
     resolution: {integrity: sha512-lcHBnZ7uvCJiWtGooKOklo/4okqszWvJ0BatW1UaIe+ynmpVpp1lyJkvv1Mj08d39k4soaWuhZVNKjD/RFL34Q==}
@@ -2477,6 +2493,11 @@ packages:
     resolution: {integrity: sha512-yIAyh7F/9uWkOzCi1/2FqvNvK6Wb9Y1+Kzn16SuGfN9YFJDTbwlzGRvePCNTOX0recpLQF3kc2FmvMUhyTCH1Q==}
     peerDependencies:
       react: '*'
+      react-native: '*'
+
+  react-native-url-polyfill@3.0.0:
+    resolution: {integrity: sha512-aA5CiuUCUb/lbrliVCJ6lZ17/RpNJzvTO/C7gC/YmDQhTUoRD5q5HlJfwLWcxz4VgAhHwXKzhxH+wUN24tAdqg==}
+    peerDependencies:
       react-native: '*'
 
   react-native@0.81.5:
@@ -4350,6 +4371,17 @@ snapshots:
     optionalDependencies:
       expo: 54.0.30(@babel/core@7.28.5)(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0)
 
+  '@react-native-firebase/firestore@23.7.0(@react-native-firebase/app@23.7.0(expo@54.0.30(@babel/core@7.28.5)(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))':
+    dependencies:
+      '@react-native-firebase/app': 23.7.0(expo@54.0.30(@babel/core@7.28.5)(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0)
+      react-native-url-polyfill: 3.0.0(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))
+    transitivePeerDependencies:
+      - react-native
+
+  '@react-native-firebase/storage@23.7.0(@react-native-firebase/app@23.7.0(expo@54.0.30(@babel/core@7.28.5)(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0))':
+    dependencies:
+      '@react-native-firebase/app': 23.7.0(expo@54.0.30(@babel/core@7.28.5)(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0)
+
   '@react-native-google-signin/google-signin@16.1.1(expo@54.0.30(@babel/core@7.28.5)(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0)':
     dependencies:
       react: 19.1.0
@@ -6046,6 +6078,11 @@ snapshots:
       react-native: 0.81.5(@babel/core@7.28.5)(react@19.1.0)
       react-native-is-edge-to-edge: 1.2.1(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0))(react@19.1.0)
       warn-once: 0.1.1
+
+  react-native-url-polyfill@3.0.0(react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0)):
+    dependencies:
+      react-native: 0.81.5(@babel/core@7.28.5)(react@19.1.0)
+      whatwg-url-without-unicode: 8.0.0-3
 
   react-native@0.81.5(@babel/core@7.28.5)(react@19.1.0):
     dependencies:
