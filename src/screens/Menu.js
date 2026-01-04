@@ -9,9 +9,16 @@ const Menu = ({ navigation }) => {
                 <Text>GrandMastersTemple</Text>
                 <Button
                     title="Go to Grand Masters Temple"
-                    onPress={() => navigation.navigate('GrandMastersTemple',)}
+                    onPress={() => navigation.navigate('GrandMastersTemple')}
                 />
             </View>
+            <View style={{ marginTop: 20 }}>
+                <Button
+                    title="Ver Perfil"
+                    onPress={() => navigation.navigate('UserProfile')}
+                />
+            </View>
+
         </View>
     )
 }
