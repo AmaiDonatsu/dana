@@ -9,9 +9,11 @@ export default function Login({ navigation }) {
     const [loading, setLoading] = useState(false);
     const [googleLoading, setGoogleLoading] = useState(false);
 
+    const GOOGLE_WEB_CLIENT_ID = process.env.GOOGLE_WEB_CLIENT_ID;
+
     useEffect(() => {
         GoogleSignin.configure({
-            webClientId: 'TU_WEB_CLIENT_ID.apps.googleusercontent.com', // Reemplazar con el Client ID de la consola de Firebase
+            webClientId: GOOGLE_WEB_CLIENT_ID,
         });
     }, []);
 
