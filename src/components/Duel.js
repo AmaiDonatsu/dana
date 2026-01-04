@@ -7,6 +7,7 @@ const Duel = ({ route, navigation }) => {
     const { objectCharacter } = route.params || {};
 
     if (!objectCharacter) {
+        console.error("No character data provided");
         return (
             <View>
                 <Text>Error: No character data provided</Text>
@@ -14,11 +15,9 @@ const Duel = ({ route, navigation }) => {
         );
     }
 
-    const { flow: initialFlow } = objectCharacter;
-
     // safe check logic
     try {
-        verifyObjectFlow(initialFlow);
+        verifyObjectFlow(objectCharacter);
     } catch (error) {
         console.error(error);
         return (
@@ -27,6 +26,7 @@ const Duel = ({ route, navigation }) => {
             </View>
         );
     }
+    const initialFlow = objectCharacter.flow;
 
     const [currentFlow, setCurrentFlow] = useState(initialFlow);
     const [phase, setPhase] = useState(initialFlow.phase);
