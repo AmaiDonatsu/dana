@@ -8,7 +8,7 @@ const CARD_WIDTH = width / 2 - CARD_MARGIN * 3; // 2 columns mostly
 
 const NavigationCards = ({ screenNavInfo }) => {
     const navigation = useNavigation();
-    const props = screenNavInfo.props;
+
     return (
         <View style={styles.container}>
             {screenNavInfo && Array.isArray(screenNavInfo) && screenNavInfo.length > 0 ? (
@@ -17,7 +17,7 @@ const NavigationCards = ({ screenNavInfo }) => {
                     renderItem={({ item }) => (
                         <TouchableOpacity
                             style={styles.card}
-                            onPress={() => navigation.navigate(item.screen, props)}
+                            onPress={() => navigation.navigate(item.screen, item.props)}
                             activeOpacity={0.8}
                         >
                             <Image source={item.image} style={styles.cardImage} resizeMode="cover" />

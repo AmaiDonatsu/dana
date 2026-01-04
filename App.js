@@ -10,6 +10,7 @@ import { View, ActivityIndicator } from 'react-native';
 import Menu from './src/screens/Menu';
 import GrandMastersTemple from './src/screens/GrandMastersTemple';
 import WorkingMemory from './src/components/games/WorkingMemory/WorkingMemory';
+import Duel from './src/components/Duel';
 
 // Pantallas de Auth
 import Login from './src/screens/auth/Login';
@@ -55,7 +56,7 @@ export default function App() {
             <>
               <Stack.Screen name="Menu" component={Menu} />
               <Stack.Screen name="GrandMastersTemple" component={GrandMastersTemple} />
-              <Stack.Screen name="WorkingMemory" component={WorkingMemory} />
+              <Stack.Screen name="Duel" component={Duel} />
             </>
           )}
         </Stack.Navigator>
