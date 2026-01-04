@@ -1,11 +1,13 @@
-const verifyObjectFlow = (objectCharacter) => {
+const verifyObjectFlow = (objectCharacter, extraData = {}) => {
+    console.log("extraData", JSON.stringify(extraData));
+
     if (!objectCharacter || typeof objectCharacter !== "object") {
-        throw new Error("objectCharacter must be an object");
+        throw new Error("objectCharacter must be an object\n type: " + typeof objectCharacter + "\n value: " + objectCharacter);
     }
 
     const flow = objectCharacter.flow;
     if (!flow || typeof flow !== "object") {
-        throw new Error("objectCharacter.flow must be an object");
+        throw new Error("objectCharacter.flow must be an object\n type: " + typeof flow + "\n value: " + flow);
     }
 
     const requiredKeys = ["puzzle", "puzzleProps", "onResolve", "onFail"];
