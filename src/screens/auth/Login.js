@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator, Image } from 'react-native';
-import auth from '@react-native-firebase/auth';
+import { getAuth, signInWithEmailAndPassword, signInWithCredential, GoogleAuthProvider } from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 export default function Login({ navigation }) {
@@ -23,7 +23,8 @@ export default function Login({ navigation }) {
 
         setLoading(true);
         try {
-            await auth().signInWithEmailAndPassword(email, password);
+            const auth = getAuth();
+            await signInWithEmailAndPassword(auth, email, password);
         } catch (error) {
             console.error(error);
             let errorMessage = 'Ocurrió un error al iniciar sesión';
@@ -41,8 +42,9 @@ export default function Login({ navigation }) {
         try {
             await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
             const { idToken } = await GoogleSignin.signIn();
-            const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-            await auth().signInWithCredential(googleCredential);
+            const auth = getAuth();
+            const googleCredential = GoogleAuthProvider.credential(idToken);
+            await signInWithCredential(auth, googleCredential);
         } catch (error) {
             console.error(error);
             // Si el usuario cancela no mostramos alert

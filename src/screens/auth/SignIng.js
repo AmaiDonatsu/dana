@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
-import auth from '@react-native-firebase/auth';
+import { getAuth, createUserWithEmailAndPassword } from '@react-native-firebase/auth';
 
 export default function SignIng({ navigation }) {
     const [email, setEmail] = useState('');
@@ -26,7 +26,8 @@ export default function SignIng({ navigation }) {
 
         setLoading(true);
         try {
-            await auth().createUserWithEmailAndPassword(email, password);
+            const auth = getAuth();
+            await createUserWithEmailAndPassword(auth, email, password);
             Alert.alert('Éxito', 'Cuenta creada correctamente');
             // La navegación se manejará automáticamente en App.js
         } catch (error) {
