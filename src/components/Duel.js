@@ -36,10 +36,9 @@ const Duel = ({ route, navigation }) => {
 
     const onFinish = (result) => {
         if (typeof result === "string") {
-            if (result === "finish") {
-                setFinishState("finish");
-            } else if (result === "fail") {
-                setFinishState("fail");
+            if (result === "finish" || result === "fail") {
+                // Navigate back to temple instead of showing static message
+                navigation.goBack();
             }
             return;
         }

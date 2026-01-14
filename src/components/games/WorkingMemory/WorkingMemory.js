@@ -3,8 +3,19 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated, Dimensions } from '
 import { Audio } from 'expo-av';
 import { SvgXml } from 'react-native-svg';
 import { ALL_ICONS } from '../../../../assets/res/workingmemory/icons';
+import ModalTextAndOk from '../../ui/ModalTextAndOK';
 
 const INITIAL_MAPPING = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+
+const MESSAGES = [
+    "Incluso el roble más fuerte comenzó como una pequeña semilla. Intenta de nuevo.",
+    "El fracaso es solo la oportunidad de comenzar de nuevo con más inteligencia.",
+    "Un viaje de mil millas comienza con un solo paso. Mantén la calma.",
+    "La perseverancia es la base de todas las acciones. Tu espíritu es fuerte.",
+    "Cae siete veces, levántate ocho. El entrenamiento continúa.",
+    "La claridad mental surge de la práctica constante. No te rindas.",
+    "El agua perfora la roca no por su fuerza, sino por su persistencia."
+];
 
 const WorkingMemory = ({ onFinish, flow, levelMax = "infinito", velocity = 3, }) => {
     // Game State
@@ -21,6 +32,8 @@ const WorkingMemory = ({ onFinish, flow, levelMax = "infinito", velocity = 3, })
     const [shuffleActive, setShuffleActive] = useState(false);
     const [icons, setIcons] = useState([]);
     const [nodeStatus, setNodeStatus] = useState({}); // { slotIndex: 'success' | 'error' | null }
+    const [showModal, setShowModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
     const soundRef = useRef(null);
 
     // Dynamic Icon Selection
@@ -34,32 +47,43 @@ const WorkingMemory = ({ onFinish, flow, levelMax = "infinito", velocity = 3, })
         }
     }, []);
 
-    // Audio Logic
+    // Audio Logic (with safe error handling for APK mode)
     useEffect(() => {
+        let isMounted = true;
+
         const playSound = async () => {
             try {
                 // Unload any existing sound before loading a new one
                 if (soundRef.current) {
-                    await soundRef.current.unloadAsync();
+                    await soundRef.current.unloadAsync().catch(() => { });
                 }
 
                 const { sound } = await Audio.Sound.createAsync(
                     require('../../../../assets/audio/muscafondo.mp3'),
                     { isLooping: true, volume: 0.5 }
                 );
-                soundRef.current = sound;
-                await sound.playAsync();
+
+                if (isMounted) {
+                    soundRef.current = sound;
+                    await sound.playAsync();
+                } else {
+                    // Component unmounted before we finished loading
+                    await sound.unloadAsync().catch(() => { });
+                }
             } catch (error) {
-                console.error('Error playing sound:', error);
+                // Safe handling: log warning but don't crash the app
+                console.warn('[Audio] Unable to load background music:', error?.message || error);
+                // Continue without audio - game is still playable
             }
         };
 
         playSound();
 
         return () => {
+            isMounted = false;
             if (soundRef.current) {
-                soundRef.current.stopAsync();
-                soundRef.current.unloadAsync();
+                soundRef.current.stopAsync().catch(() => { });
+                soundRef.current.unloadAsync().catch(() => { });
             }
         };
     }, []);
@@ -185,7 +209,7 @@ const WorkingMemory = ({ onFinish, flow, levelMax = "infinito", velocity = 3, })
     };
 
     const gameOver = () => {
-        setStatusText("FALLO EN LA MATRIZ");
+        setStatusText("FALLO EN EL RITUAL");
 
         // Error effect
         const allError = {};
@@ -194,8 +218,15 @@ const WorkingMemory = ({ onFinish, flow, levelMax = "infinito", velocity = 3, })
 
         setTimeout(() => {
             setNodeStatus({});
-            resetGame();
+            const randomMsg = MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
+            setModalMessage(randomMsg);
+            setShowModal(true);
         }, 1200 / velocity);
+    };
+
+    const handleAceptModal = () => {
+        setShowModal(false);
+        resetGame();
 
         if (typeof levelMax === "number") {
             if (level >= levelMax) {
@@ -272,6 +303,12 @@ const WorkingMemory = ({ onFinish, flow, levelMax = "infinito", velocity = 3, })
                     </TouchableOpacity>
                 </View>
             )}
+
+            <ModalTextAndOk
+                text={modalMessage}
+                visible={showModal}
+                onAcept={handleAceptModal}
+            />
         </View >
     );
 };
