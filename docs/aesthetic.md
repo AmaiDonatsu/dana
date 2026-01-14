@@ -1,35 +1,60 @@
-# Estetica y estilo visual de Dana
-## Los estilos visuales y narrativa estética del juego está basada en la cultura asiática, dependiendo del personaje o del típo de jeugo estará relacionado espécificamente con una cultura, de un lugar geográfico y de un momento de su historia espécifico.
+# Estética y Estilo Visual: Jade Tecnológico
 
-* En el juego **WorkingMemory** está inspirado en *Exámenes Imperiales (Keju)*
-Los símbolos usados para memorizar tienen que ver con carácteres y sellos de la china imperial.
+Esta guía define la identidad visual y narrativa de **Dana**, centrada en la fusión entre la magnificencia de la China Imperial y la precisión de la tecnología moderna.
 
-### ☰: cielo
-colores: #1968c9ff,  #ff5324f3,  #ffffffff 
+## 1. Visión Estética
+El concepto central es el **"Jade Tecnológico"**. Evoca una atmósfera ritualista y solemne, donde la herencia cultural se manifiesta a través de interfaces digitales vibrantes. Es el contraste entre la profundidad de la tinta china y el brillo del neón.
 
-### ☷: tierra
-colores: #452710fb, #309e0cff #f1ab1fff 
+## 2. Paleta de Colores Primaria
 
-### ☲: fuego
-colores: #314aedff, #f3d52aff #dd3c2dff 
+| Concepto | Color | Hex Code | Uso Principal |
+| :--- | :--- | :--- | :--- |
+| **Negro Lacado** | Tinta China | `#0D0D0D` | Fondos de pantalla y superficies profundas. |
+| **Oro Imperial** | Estructura | `#D4AF37` | Marcos, bordes de importancia y jerarquía. |
+| **Verde Jade** | Energía | `#00FF9D` | Interactividad, estados activos y vitalidad. |
+| **Rojo Bermellón** | Alerta | `#E63946` | Errores, avisos críticos y tradición. |
 
-### ☵: agua
-colores: #86bbffff, #95f8ffff #b6b3ffff  
+---
 
-### ☱: aire
-colores: #314aedff, #d561ffff #384697ff 
+## 3. Guía de Simbología (Memorización)
 
-### 木: Madera (Mù)
-colores: #2d5a27ff, #a0c11bff, #5c4033ff
+Los símbolos utilizados en juegos como **WorkingMemory** se dividen en categorías cósmicas y elementales, cada uno con una paleta de tres colores para representaciones en gradiente.
 
-### 火: Fuego (Huǒ):
-colores: #ff4500ff, #d73333ff, #ffd700ff
+### A. Los Trigramas (Ba Gua)
+Inspirados en los *Exámenes Imperiales (Keju)* y la cosmología taoísta.
 
-### 土: Tierra (Tǔ):
-colores: #8b4513ff, #daa520ff, #c2b280ff
+*   **☰ Cielo**: `#1968c9`, `#ff5324`, `#ffffff`
+*   **☷ Tierra**: `#452710`, `#309e0c`, `#f1ab1f`
+*   **☲ Fuego**: `#314aed`, `#f3d52a`, `#dd3c2d`
+*   **☵ Agua**: `#86bbff`, `#95f8ff`, `#b6b3ff`
+*   **☱ Aire**: `#314aed`, `#d561ff`, `#384697`
 
-### 金: Metal (Jīn):
-colores: #e5e4e2ff, #c0c0c0ff, #71797eff
+### B. Los Cinco Elementos (Wu Xing)
+Representan el ciclo de la vida y la transformación.
 
-### 氵: Agua (Shān):
-colores: #002366ff, #007ba7ff, #000000ff
+*   **木 Madera (Mù)**: `#2d5a27`, `#a0c11b`, `#5c4033`
+*   **火 Fuego (Huǒ)**: `#ff4500`, `#d73333`, `#ffd700`
+*   **土 Tierra (Tǔ)**: `#8b4513`, `#daa520`, `#c2b280`
+*   **金 Metal (Jīn)**: `#e5e4e2`, `#c0c0c0`, `#71797e`
+*   **氵 Agua (Shān)**: `#002366`, `#007ba7`, `#000000`
+
+---
+
+## 4. Principios de UI y Layout
+
+### Estructura y Marcos (Frames)
+La interfaz utiliza el concepto de **Celosías (Lattice Work)**. En lugar de bordes redondeados modernos, se prefieren los ángulos rectos o patrones geométricos asiáticos que imiten la arquitectura de madera tallada.
+
+### Jerarquía Visual
+*   **Tablero Ritual**: El área de juego es prioritaria y debe ocupar el centro de la atención.
+*   **Información Compacta**: El nivel y la puntuación se presentan de forma minimalista en contenedores que evocan sellos imperiales.
+
+### Tipografía
+*   **Títulos/Rituales**: Fuentes *Serif* para evocar tradición y caligrafía.
+*   **Datos/Técnico**: Fuentes *Monospace* o *Sans-serif* para números y comunicación de sistema.
+
+---
+
+## 5. Layout de Referencia
+
+<img src="../assets/markdown/layout.png" alt="Layout de la UI" width="400">
