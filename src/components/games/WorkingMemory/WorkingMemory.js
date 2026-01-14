@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Animated, Dimensions } from 'react-native';
 import { Audio } from 'expo-av';
+import { SvgXml } from 'react-native-svg';
+import { ALL_ICONS } from '../../../../assets/res/workingmemory/icons';
 
-const ICONS = ['⚛️', '🧬', '🔭', '🪐', '💻', '⚡', '🤖', '🔋', '🚀'];
 const INITIAL_MAPPING = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
 const WorkingMemory = ({ onFinish, flow, levelMax = "infinito", velocity = 3, }) => {
@@ -18,8 +19,20 @@ const WorkingMemory = ({ onFinish, flow, levelMax = "infinito", velocity = 3, })
     const [playerSequence, setPlayerSequence] = useState([]);
     const [activeNode, setActiveNode] = useState(null); // Index of the currently highlighted slot
     const [shuffleActive, setShuffleActive] = useState(false);
+    const [icons, setIcons] = useState([]);
     const [nodeStatus, setNodeStatus] = useState({}); // { slotIndex: 'success' | 'error' | null }
     const soundRef = useRef(null);
+
+    // Dynamic Icon Selection
+    useEffect(() => {
+        if (ALL_ICONS.length >= 9) {
+            const shuffled = [...ALL_ICONS].sort(() => 0.5 - Math.random());
+            setIcons(shuffled.slice(0, 9));
+        } else {
+            console.warn("Se requieren al menos 9 iconos en assets/res/workingmemory");
+            setIcons(ALL_ICONS); // Fallback to all available
+        }
+    }, []);
 
     // Audio Logic
     useEffect(() => {
@@ -237,7 +250,11 @@ const WorkingMemory = ({ onFinish, flow, levelMax = "infinito", velocity = 3, })
                                 style={nodeStyle}
                                 onPress={() => handleNodeClick(slotIndex)}
                             >
-                                <Text style={styles.icon}>{ICONS[iconIndex]}</Text>
+                                {icons[iconIndex] ? (
+                                    <SvgXml xml={icons[iconIndex].xml} width="60%" height="60%" />
+                                ) : (
+                                    <Text style={styles.icon}>?</Text>
+                                )}
                             </TouchableOpacity>
                         );
                     })}
