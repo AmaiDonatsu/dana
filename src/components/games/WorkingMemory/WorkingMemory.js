@@ -208,31 +208,21 @@ const WorkingMemory = ({ onFinish, flow, levelMax = "infinito", velocity = 3, })
 
     return (
         <View style={styles.container}>
-            <View style={styles.glassPanel}>
-                <View style={styles.header}>
-                    <Text style={styles.title}>
-                        NEURO-SYNC <Text style={styles.version}>v2.0 PRO</Text>
-                    </Text>
-                    <Text style={styles.subtitle}>PROTOCOLO DE ALTA INTERFERENCIA COGNITIVA</Text>
+            <View style={styles.topBar}>
+                <View style={styles.statBox}>
+                    <Text style={styles.statLabel}>NIVEL</Text>
+                    <Text style={styles.statValue}>{String(level).padStart(2, '0')}</Text>
                 </View>
-
-                <View style={styles.infoBar}>
-                    <View>
-                        <Text style={styles.label}>NIVEL ACTUAL</Text>
-                        <Text style={styles.valueWhite}>{String(level).padStart(2, '0')}</Text>
-                    </View>
-                    <View style={{ alignItems: 'flex-end' }}>
-                        <Text style={styles.label}>PUNTUACIÓN</Text>
-                        <Text style={styles.valueBlue}>{String(score).padStart(4, '0')}</Text>
-                    </View>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.gameTitle}>MEMORIA IMPERIAL</Text>
                 </View>
-
-                <View style={styles.messageBox}>
-                    <Text style={[styles.statusText, textPulseAnimation(isShowingSequence)]}>
-                        {statusText}
-                    </Text>
+                <View style={[styles.statBox, { alignItems: 'flex-end' }]}>
+                    <Text style={styles.statLabel}>PUNTOS</Text>
+                    <Text style={styles.statValue}>{String(score).padStart(4, '0')}</Text>
                 </View>
+            </View>
 
+            <View style={styles.mainArea}>
                 <View style={[styles.grid, shuffleActive && styles.shuffling]}>
                     {nodeMapping.map((iconIndex, slotIndex) => {
                         const isActive = activeNode === slotIndex;
@@ -251,7 +241,7 @@ const WorkingMemory = ({ onFinish, flow, levelMax = "infinito", velocity = 3, })
                                 onPress={() => handleNodeClick(slotIndex)}
                             >
                                 {icons[iconIndex] ? (
-                                    <SvgXml xml={icons[iconIndex].xml} width="60%" height="60%" />
+                                    <SvgXml xml={icons[iconIndex].xml} width="70%" height="70%" />
                                 ) : (
                                     <Text style={styles.icon}>?</Text>
                                 )}
@@ -259,257 +249,174 @@ const WorkingMemory = ({ onFinish, flow, levelMax = "infinito", velocity = 3, })
                         );
                     })}
                 </View>
-
-                {!isPlaying && (
-                    <View style={styles.controls}>
-                        <TouchableOpacity style={styles.startBtn} onPress={() => {
-                            setSequence([]);
-                            // Small delay to ensure state reset before starting
-                            setTimeout(() => {
-                                setIsPlaying(true);
-                                const firstIcon = Math.floor(Math.random() * 9);
-                                setSequence([firstIcon]);
-                                setTimeout(() => playSequence([firstIcon], 1), 100);
-                            }, 50);
-                        }}>
-                            <Text style={styles.startBtnText}>INICIAR ENTRENAMIENTO</Text>
-                        </TouchableOpacity>
-                    </View>
-                )}
-
-                {isPlaying && (
-                    <View style={styles.footer}>
-                        <View style={styles.footerRow}>
-                            <Text style={styles.footerLabel}>MODO SHUFFLE:</Text>
-                            <Text style={[styles.footerValue, shuffleActive ? styles.textOrange : styles.textSlate]}>
-                                {level >= 5 ? (shuffleActive ? "ACTIVO 🔥" : "LISTO") : "INACTIVO (NIVEL < 5)"}
-                            </Text>
-                        </View>
-                        <View style={styles.footerRow}>
-                            <Text style={styles.footerLabel}>LATENCIA:</Text>
-                            <Text style={styles.footerValueBlue}>
-                                {Math.round(Math.max(100, (600 - (level * 25)) * (3 / velocity)))}ms
-                            </Text>
-                        </View>
-                    </View>
-                )}
-
             </View>
+
+            <View style={styles.footerInfo}>
+                <Text style={[styles.statusText, textPulseAnimation(isShowingSequence)]}>
+                    {statusText}
+                </Text>
+            </View>
+
+            {!isPlaying && (
+                <View style={styles.overlay}>
+                    <TouchableOpacity style={styles.startBtn} onPress={() => {
+                        setSequence([]);
+                        setTimeout(() => {
+                            setIsPlaying(true);
+                            const firstIcon = Math.floor(Math.random() * 9);
+                            setSequence([firstIcon]);
+                            setTimeout(() => playSequence([firstIcon], 1), 100);
+                        }, 50);
+                    }}>
+                        <Text style={styles.startBtnText}>INICIAR RITUAL</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
         </View >
     );
 };
 
 // Helper for simple pulse animation via state
 const textPulseAnimation = (active) => {
-    // In a real app we'd use Animated.loop, but for simplicity here we just return a style
-    // You could implement a proper Animated.Value loop in useEffect if needed.
-    return active ? { opacity: 0.7 } : { opacity: 1 };
+    return active ? { opacity: 0.5 } : { opacity: 1 };
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#050507',
+        backgroundColor: '#0D0D0D', // Negro Lacado / Tinta China
         alignItems: 'center',
-        justifyContent: 'center',
-        padding: 20,
+        justifyContent: 'space-between',
+        paddingVertical: 40,
+        paddingHorizontal: 20,
     },
-    glassPanel: {
+    topBar: {
         width: '100%',
         maxWidth: 400,
-        backgroundColor: 'rgba(20, 20, 28, 0.85)',
-        borderRadius: 40,
-        padding: 30,
-        borderWidth: 1,
-        borderColor: 'rgba(255, 255, 255, 0.08)',
-        borderBottomWidth: 4,
-        borderBottomColor: 'rgba(30, 58, 138, 0.3)', // blue-900/30
-    },
-    header: {
-        marginBottom: 24,
-        alignItems: 'center',
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: '900',
-        color: '#3b82f6', // blue-500
-        letterSpacing: -1,
-    },
-    version: {
-        fontSize: 12,
-        backgroundColor: 'rgba(30, 58, 138, 0.5)',
-        color: '#93c5fd', // blue-300
-        paddingHorizontal: 8,
-        paddingVertical: 2,
-        borderRadius: 4,
-        overflow: 'hidden',
-    },
-    subtitle: {
-        fontSize: 9,
-        color: '#64748b', // slate-500
-        textTransform: 'uppercase',
-        letterSpacing: 3,
-        fontWeight: 'bold',
-        marginTop: 4,
-        textAlign: 'center',
-    },
-    infoBar: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-        padding: 16,
-        borderRadius: 16,
-        borderWidth: 1,
-        borderColor: 'rgba(255, 255, 255, 0.05)',
-        marginBottom: 24,
+        alignItems: 'flex-start',
+        marginBottom: 20,
     },
-    label: {
-        color: '#64748b',
-        fontSize: 9,
+    statBox: {
+        borderWidth: 1,
+        borderColor: '#D4AF37', // Oro Imperial
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        backgroundColor: 'rgba(13, 13, 13, 0.8)',
+    },
+    statLabel: {
+        color: '#D4AF37',
+        fontSize: 10,
         fontWeight: 'bold',
-        textTransform: 'uppercase',
+        letterSpacing: 2,
         marginBottom: 4,
+        fontFamily: 'serif', // Tradición
     },
-    valueWhite: {
-        fontSize: 24,
+    statValue: {
+        fontSize: 20,
         fontWeight: 'bold',
-        color: '#ffffff',
+        color: '#00FF9D', // Verde Jade Neón
+        fontFamily: 'monospace',
     },
-    valueBlue: {
-        fontSize: 24,
+    titleContainer: {
+        paddingTop: 10,
+    },
+    gameTitle: {
+        color: '#D4AF37',
+        fontSize: 14,
         fontWeight: 'bold',
-        color: '#60a5fa', // blue-400
+        letterSpacing: 4,
+        textAlign: 'center',
+        fontFamily: 'serif',
     },
-    messageBox: {
-        height: 56,
-        alignItems: 'center',
+    mainArea: {
+        flex: 1,
+        width: '100%',
+        maxWidth: 400,
         justifyContent: 'center',
-        backgroundColor: 'rgba(23, 37, 84, 0.2)', // blue-950/20
-        borderWidth: 1,
-        borderColor: 'rgba(59, 130, 246, 0.1)',
-        borderRadius: 16,
-        marginBottom: 24,
-    },
-    statusText: {
-        color: '#93c5fd', // blue-300
-        fontSize: 12,
-        fontWeight: 'bold',
-        textTransform: 'uppercase',
-        letterSpacing: 1,
     },
     grid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
-        gap: 12,
-        marginBottom: 32,
+        gap: 15,
     },
     node: {
-        width: '30%', // Approx for 3 columns with gap
+        width: '30%',
         aspectRatio: 1,
-        backgroundColor: '#16161e',
-        borderWidth: 2,
-        borderColor: '#2d2d39',
-        borderRadius: 16,
+        backgroundColor: '#000000',
+        borderWidth: 1,
+        borderColor: '#333333',
         alignItems: 'center',
         justifyContent: 'center',
     },
     nodeActive: {
-        backgroundColor: '#3b82f6',
-        borderColor: '#60a5fa',
-        transform: [{ translateY: -2 }],
-        // Shadow support for iOS
-        shadowColor: '#3b82f6',
+        borderColor: '#00FF9D', // Jade glow
+        backgroundColor: 'rgba(0, 255, 157, 0.1)',
+        shadowColor: '#00FF9D',
         shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.7,
-        shadowRadius: 10,
-        // Elevation for Android
+        shadowOpacity: 0.8,
+        shadowRadius: 15,
         elevation: 10,
     },
     nodeSuccess: {
-        backgroundColor: '#10b981',
-        borderColor: '#34d399',
+        borderColor: '#00FF9D',
+        backgroundColor: 'rgba(0, 255, 157, 0.2)',
     },
     nodeError: {
-        backgroundColor: '#ef4444',
-        borderColor: '#f87171',
+        borderColor: '#E63946', // Rojo Bermellón
+        backgroundColor: 'rgba(230, 57, 70, 0.2)',
     },
     icon: {
         fontSize: 32,
+        color: '#555',
     },
-    controls: {
-        gap: 12,
+    footerInfo: {
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        borderTopWidth: 1,
+        borderTopColor: 'rgba(212, 175, 55, 0.3)', // Fade gold
+        paddingTop: 15,
+    },
+    statusText: {
+        color: '#D4AF37',
+        fontSize: 12,
+        letterSpacing: 2,
+        fontFamily: 'serif',
+        textAlign: 'center',
+    },
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(13, 13, 13, 0.8)', // Darken background slightly
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 10,
     },
     startBtn: {
-        backgroundColor: '#2563eb', // blue-600 (simplified gradient)
-        paddingVertical: 16,
-        borderRadius: 16,
+        borderWidth: 2,
+        borderColor: '#D4AF37',
+        backgroundColor: '#0D0D0D',
+        paddingVertical: 20,
+        paddingHorizontal: 40,
+        minWidth: 200,
         alignItems: 'center',
-        shadowColor: '#1e3a8a',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.4,
-        shadowRadius: 5,
-        elevation: 4,
     },
     startBtnText: {
-        color: '#ffffff',
-        fontWeight: '900',
+        color: '#00FF9D',
+        fontWeight: 'bold',
         fontSize: 16,
-    },
-    modeContainer: {
-        flexDirection: 'row',
-        gap: 8,
-    },
-    modeBtn: {
-        flex: 1,
-        paddingVertical: 12,
-        backgroundColor: 'rgba(15, 23, 42, 0.5)', // slate-900/50
-        borderRadius: 12,
-        borderWidth: 1,
-        borderColor: 'transparent',
-        alignItems: 'center',
-    },
-    modeActive: {
-        backgroundColor: 'rgba(30, 41, 59, 0.5)', // slate-800/50
-        borderColor: 'rgba(59, 130, 246, 0.5)',
-    },
-    modeText: {
-        fontSize: 10,
-        fontWeight: 'bold',
-        color: '#64748b', // slate-500
-    },
-    modeTextActive: {
-        color: '#93c5fd', // blue-300
-    },
-    footer: {
-        marginTop: 24,
-        paddingTop: 24,
-        borderTopWidth: 1,
-        borderTopColor: 'rgba(255, 255, 255, 0.05)',
-        gap: 8,
-    },
-    footerRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    footerLabel: {
-        fontSize: 10,
-        fontWeight: 'bold',
-        color: '#64748b',
-    },
-    footerValue: {
-        fontSize: 10,
-    },
-    textSlate: { color: '#475569' },
-    textOrange: { color: '#f97316' },
-    footerValueBlue: {
-        fontFamily: 'monospace',
-        color: '#60a5fa',
-        fontSize: 12,
+        letterSpacing: 4,
+        fontFamily: 'serif',
     },
     shuffling: {
-        opacity: 0.5, // Simple shuffle effect
+        opacity: 0.3,
     }
 });
 
